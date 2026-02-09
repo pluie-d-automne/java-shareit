@@ -1,6 +1,6 @@
 package ru.practicum.shareit.item;
 
-import java.util.Collection;
+import java.util.List;
 
 public interface ItemService {
     ItemDto create(Long userId, ItemDto itemDto);
@@ -9,7 +9,7 @@ public interface ItemService {
 
     ItemDto findOne(Long itemId);
 
-    Collection<ItemDto> findItemsByOwner(Long userId);
+    List<ItemDto> findItemsByOwner(Long userId);
 
-    Collection<ItemDto> itemTextSearch(String text);
+    List<ItemDto> searchItemsByText(String text);
 }

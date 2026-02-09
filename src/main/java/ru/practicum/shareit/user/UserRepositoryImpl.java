@@ -10,12 +10,12 @@ import java.util.*;
 
 @Slf4j
 @Repository
-public class UserDaoImpl implements UserDao {
-    List<User> users = new ArrayList<>();
-    Long idCounter = 0L;
+public class UserRepositoryImpl implements UserRepository {
+    private List<User> users = new ArrayList<>();
+    private Long idCounter = 0L;
     private final UserMapper userMapper;
 
-    public UserDaoImpl(UserMapper userMapper) {
+    public UserRepositoryImpl(UserMapper userMapper) {
         this.userMapper = userMapper;
     }
 
@@ -73,10 +73,12 @@ public class UserDaoImpl implements UserDao {
         if (userFound.isPresent() && !userFound.get().getId().equals(userId)) {
             throw new ConflictException("Пользователь с email " + userEmail + " уже существует.");
         }
+
         return false;
     }
 
-    private User findUserById(Long userId) {
+    @Override
+    public User findUserById(Long userId) {
         Optional<User> userFound = users.stream().filter(user -> Objects.equals(user.getId(), userId)).findFirst();
 
         if (userFound.isEmpty()) {

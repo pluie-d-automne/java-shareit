@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collection;
+import java.util.List;
 
 @Validated
 @RestController
@@ -28,7 +28,7 @@ public class ItemController {
     }
 
     @GetMapping
-    public Collection<ItemDto> findItemsByOwner(@RequestHeader(value = "X-Sharer-User-Id") Long userId) {
+    public List<ItemDto> findItemsByOwner(@RequestHeader(value = "X-Sharer-User-Id") Long userId) {
         return itemService.findItemsByOwner(userId);
     }
 
@@ -38,7 +38,7 @@ public class ItemController {
     }
 
     @GetMapping("/search")
-    public Collection<ItemDto> itemTextSearch(@RequestParam String text) {
-        return itemService.itemTextSearch(text);
+    public List<ItemDto> searchItemsByText(@RequestParam String text) {
+        return itemService.searchItemsByText(text);
     }
 }

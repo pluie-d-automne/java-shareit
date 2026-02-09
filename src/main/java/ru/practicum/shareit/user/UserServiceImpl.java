@@ -8,29 +8,34 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
-    private final UserDao userDao;
+    private final UserRepository userRepository;
 
     @Override
     public UserDto create(UserDto userDto) {
         log.info("Create new user {}", userDto);
-        return userDao.create(userDto);
+        return userRepository.create(userDto);
     }
 
     @Override
     public UserDto update(Long userId, UserDto userDto) {
         log.info("Update userId={} to {}", userId, userDto);
-        return userDao.update(userId, userDto);
+        return userRepository.update(userId, userDto);
     }
 
     @Override
     public UserDto findOne(Long userId) {
         log.info("Find user by userId={}", userId);
-        return userDao.findOne(userId);
+        return userRepository.findOne(userId);
     }
 
     @Override
     public UserDto delete(Long userId) {
         log.info("Delete user by userId={}", userId);
-        return userDao.delete(userId);
+        return userRepository.delete(userId);
+    }
+
+    @Override
+    public User findUserById(Long userId) {
+        return userRepository.findUserById(userId);
     }
 }

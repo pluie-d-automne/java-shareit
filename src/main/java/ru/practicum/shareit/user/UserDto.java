@@ -13,10 +13,10 @@ import ru.practicum.shareit.validation.Marker;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserDto {
-    Long id;
-    String name;
+    private Long id;
+    private String name;
 
     @Email(groups = {Marker.OnCreate.class, Marker.OnUpdate.class}, message = "Электронная почта указана некорректно.")
     @NotBlank(groups = Marker.OnCreate.class, message = "Электронная почта не может быть пустой.")
-    String email;
+    private String email;
 }

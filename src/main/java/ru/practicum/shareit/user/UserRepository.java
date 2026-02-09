@@ -1,6 +1,6 @@
 package ru.practicum.shareit.user;
 
-public interface UserDao {
+public interface UserRepository {
     UserDto create(UserDto userDto);
 
     UserDto findOne(Long userId);
@@ -8,5 +8,7 @@ public interface UserDao {
     UserDto delete(Long userId);
 
     UserDto update(Long userId, UserDto userDto);
+
+    User findUserById(Long userId);
 
 }

@@ -4,34 +4,42 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 import ru.practicum.shareit.exception.NotFoundException;
 import ru.practicum.shareit.exception.UnauthorizedException;
+import ru.practicum.shareit.user.User;
 
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 @Slf4j
 @Repository
-public class ItemDaoImpl implements ItemDao {
-    Collection<Item> items = new ArrayList<>();
-    Long idCounter = 0L;
+public class ItemRepositoryImpl implements ItemRepository {
+    private List<Item> items = new ArrayList<>();
+    private Long idCounter = 0L;
 
     private final ItemMapper itemMapper;
 
-    public ItemDaoImpl(ItemMapper itemMapper) {
+    public ItemRepositoryImpl(ItemMapper itemMapper) {
         this.itemMapper = itemMapper;
     }
 
-    public ItemDto create(Long userId, ItemDto itemDto) {
-        Item item = new Item(generateId(), userId, itemDto.getName(), itemDto.getDescription(), itemDto.getAvailable());
+    @Override
+    public ItemDto create(User user, ItemDto itemDto) {
+        Item item = new Item(generateId(),
+                user,
+                itemDto.getName(),
+                itemDto.getDescription(),
+                itemDto.getAvailable(),
+                itemDto.getRequest());
         items.add(item);
         log.info("Created item {}", item);
         return itemMapper.toItemDto(item);
     }
 
-    public ItemDto update(Long userId, Long itemId, ItemDto itemDto) {
+    @Override
+    public ItemDto update(User user, Long itemId, ItemDto itemDto) {
         Item itemFound = getItemById(itemId);
 
-        if (! isOwner(userId, itemFound)) {
+        if (! isOwner(user, itemFound)) {
             throw new UnauthorizedException("Пользователь не является владельцем вещи");
         }
 
@@ -55,25 +63,30 @@ public class ItemDaoImpl implements ItemDao {
         return itemMapper.toItemDto(itemFound);
     }
 
+    @Override
     public ItemDto findOne(Long itemId) {
         Item itemFound = getItemById(itemId);
         log.info("Found item {}", itemFound);
         return itemMapper.toItemDto(itemFound);
     }
 
-    public Collection<ItemDto> findItemsByOwner(Long userId) {
-        log.info("Find items for userId={}", userId);
+    @Override
+    public List<ItemDto> findItemsByOwner(User user) {
+        log.info("Find items for user={}", user);
         return items.stream()
-                .filter(item -> item.getOwnerId().equals(userId))
+                .filter(item -> item.getOwner().equals(user))
                 .map(itemMapper::toItemDto)
                 .toList();
     }
 
-    public Collection<ItemDto> itemTextSearch(String text) {
+    @Override
+    public List<ItemDto> searchItemsByText(String text) {
         log.info("Find items by text={}", text);
+
         if (text.isBlank()) {
             return new ArrayList<>();
         }
+
         return items.stream()
                 .filter(item -> isItemSearched(item, text))
                 .filter(Item::getAvailable)
@@ -97,8 +110,8 @@ public class ItemDaoImpl implements ItemDao {
         }
     }
 
-    private Boolean isOwner(Long userId, Item item) {
-        return item.getOwnerId().equals(userId);
+    private Boolean isOwner(User user, Item item) {
+        return item.getOwner().equals(user);
     }
 
     private Boolean isItemSearched(Item item, String text) {

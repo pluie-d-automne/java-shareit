@@ -3,41 +3,49 @@ package ru.practicum.shareit.item;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import ru.practicum.shareit.user.User;
 import ru.practicum.shareit.user.UserService;
 
-import java.util.Collection;
+import java.util.List;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class ItemServiceImpl implements ItemService {
-    private final ItemDao itemDao;
+    private final ItemRepository itemRepository;
 
     private final UserService userService;
 
+    @Override
     public ItemDto create(Long userId, ItemDto itemDto) {
         log.info("Create item {} by user {}", itemDto, userId);
-        userService.findOne(userId);
-        return itemDao.create(userId, itemDto);
+        User user = userService.findUserById(userId);
+        return itemRepository.create(user, itemDto);
     }
 
+    @Override
     public ItemDto update(Long userId, Long itemId, ItemDto itemDto) {
-        log.info("Update item {} with id={} by user {}", itemDto, itemId, userId);
-        return itemDao.update(userId, itemId, itemDto);
+        User user = userService.findUserById(userId);
+        log.info("Update item {} with id={} by user {}", itemDto, itemId, user);
+        return itemRepository.update(user, itemId, itemDto);
     }
 
+    @Override
     public ItemDto findOne(Long itemId) {
         log.info("Look for item by id={}",itemId);
-        return itemDao.findOne(itemId);
+        return itemRepository.findOne(itemId);
     }
 
-    public Collection<ItemDto> findItemsByOwner(Long userId) {
-        log.info("Look for items of userId={}",userId);
-        return itemDao.findItemsByOwner(userId);
+    @Override
+    public List<ItemDto> findItemsByOwner(Long userId) {
+        User user = userService.findUserById(userId);
+        log.info("Look for items of user={}",user);
+        return itemRepository.findItemsByOwner(user);
     }
 
-    public Collection<ItemDto> itemTextSearch(String text) {
+    @Override
+    public List<ItemDto> searchItemsByText(String text) {
         log.info("Look for items by text={}",text);
-        return itemDao.itemTextSearch(text);
+        return itemRepository.searchItemsByText(text);
     }
 }
