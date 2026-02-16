@@ -16,7 +16,7 @@ public class UserDto {
     private Long id;
     private String name;
 
-    @Email(groups = {Marker.OnCreate.class, Marker.OnUpdate.class}, message = "Электронная почта указана некорректно.")
-    @NotBlank(groups = Marker.OnCreate.class, message = "Электронная почта не может быть пустой.")
+    @Email(groups = {Marker.OnCreate.class, Marker.OnUpdate.class}, message = "Is not valid email.")
+    @NotBlank(groups = Marker.OnCreate.class, message = "Email can not be blank.")
     private String email;
 }

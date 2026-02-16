@@ -26,8 +26,8 @@ public class UserController {
     }
 
     @DeleteMapping("/{id}")
-    public UserDto delete(@PathVariable(name = "id") long userId) {
-        return userService.delete(userId);
+    public void delete(@PathVariable(name = "id") long userId) {
+        userService.delete(userId);
     }
 
     @PatchMapping("/{id}")

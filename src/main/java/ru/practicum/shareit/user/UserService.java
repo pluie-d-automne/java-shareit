@@ -5,7 +5,7 @@ public interface UserService {
 
     UserDto findOne(Long userId);
 
-    UserDto delete(Long userId);
+    void delete(Long userId);
 
     UserDto update(Long userId, UserDto userDto);
 

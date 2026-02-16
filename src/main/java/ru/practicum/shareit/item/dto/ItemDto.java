@@ -1,4 +1,4 @@
-package ru.practicum.shareit.item;
+package ru.practicum.shareit.item.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import ru.practicum.shareit.request.ItemRequest;
 
 @Data
 @Builder
@@ -14,14 +15,14 @@ import lombok.NoArgsConstructor;
 public class ItemDto {
     private Long id;
 
-    @NotBlank
+    @NotBlank(message = "Name should not be blank.")
     private String name;
 
-    @NotBlank
+    @NotBlank(message = "Description should not be blank.")
     private String description;
 
-    @NotNull
+    @NotNull(message = "Name should not be null.")
     private Boolean available;
 
-    private String request;
+    private ItemRequest request;
 }
