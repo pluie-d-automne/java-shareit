@@ -9,9 +9,9 @@ import ru.practicum.shareit.booking.BookingRepository;
 import ru.practicum.shareit.exception.BadRequest;
 import ru.practicum.shareit.exception.NotFoundException;
 import ru.practicum.shareit.exception.UnauthorizedException;
-import ru.practicum.shareit.item.dto.CommentDto;
-import ru.practicum.shareit.item.dto.ItemDto;
-import ru.practicum.shareit.item.dto.ItemOwnerDto;
+import ru.practicum.shareit.item.dto.*;
+import ru.practicum.shareit.request.ItemRequest;
+import ru.practicum.shareit.request.dto.ItemForRequestDto;
 import ru.practicum.shareit.user.User;
 import ru.practicum.shareit.user.UserService;
 
@@ -37,7 +37,7 @@ public class ItemServiceImpl implements ItemService {
                 itemDto.getName(),
                 itemDto.getDescription(),
                 itemDto.getAvailable(),
-                null);
+                itemDto.getRequestId());
         item = itemRepository.save(item);
         log.info("Saved item {}", item);
         return itemMapper.toItemDto(item);

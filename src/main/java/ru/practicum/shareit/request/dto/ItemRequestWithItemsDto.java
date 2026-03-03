@@ -7,12 +7,13 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ItemRequestDto {
+public class ItemRequestWithItemsDto {
 
     private Long id;
 
@@ -20,4 +21,6 @@ public class ItemRequestDto {
     private String description;
 
     private LocalDateTime created;
+
+    private List<ItemForRequestDto> items;
 }

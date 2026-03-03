@@ -7,6 +7,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import ru.practicum.shareit.user.User;
 
+import java.time.LocalDateTime;
+
 /**
  * TODO Sprint add-item-requests.
  */
@@ -19,6 +21,7 @@ import ru.practicum.shareit.user.User;
 public class ItemRequest {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "description", nullable = false)
@@ -27,4 +30,7 @@ public class ItemRequest {
     @ManyToOne
     @JoinColumn(name = "requestor_id", nullable = false)
     private User requestor;
+
+    @Column(name = "created_at", nullable = false)
+    private LocalDateTime created;
 }

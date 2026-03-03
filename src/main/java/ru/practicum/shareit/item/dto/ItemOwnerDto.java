@@ -22,7 +22,7 @@ public class ItemOwnerDto {
 
     private Boolean available;
 
-    private ItemRequest request;
+    private Long requestId;
 
     private BookingDates lastBooking;
 

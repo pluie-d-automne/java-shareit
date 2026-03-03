@@ -24,5 +24,5 @@ public class ItemDto {
     @NotNull(message = "Name should not be null.")
     private Boolean available;
 
-    private ItemRequest request;
+    private Long requestId;
 }

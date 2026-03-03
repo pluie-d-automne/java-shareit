@@ -1,12 +1,39 @@
 package ru.practicum.shareit.request;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import lombok.RequiredArgsConstructor;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
+import ru.practicum.shareit.request.dto.ItemRequestDto;
+import ru.practicum.shareit.request.dto.ItemRequestWithItemsDto;
 
-/**
- * TODO Sprint add-item-requests.
- */
+import java.util.List;
+
+@Validated
 @RestController
+@RequiredArgsConstructor
 @RequestMapping(path = "/requests")
 public class ItemRequestController {
+
+    private final ItemRequestService itemRequestService;
+
+    @PostMapping
+    public ItemRequestDto create(@RequestBody ItemRequestDto itemRequestDto,
+                                 @RequestHeader(value = "X-Sharer-User-Id") Long userId) {
+        return itemRequestService.create(itemRequestDto, userId);
+    }
+
+    @GetMapping
+    public List<ItemRequestDto> findRequestsByUser(@RequestHeader(value = "X-Sharer-User-Id") Long userId) {
+        return itemRequestService.findRequestsByUser(userId);
+    }
+
+    @GetMapping("/all")
+    public List<ItemRequestDto> findRequestsOtherUsers(@RequestHeader(value = "X-Sharer-User-Id") Long userId) {
+        return itemRequestService.findRequestsOtherUsers(userId);
+    }
+
+    @GetMapping("/{id}")
+    public ItemRequestWithItemsDto findRequestById(@PathVariable(name = "id") long itemRequestId) {
+        return itemRequestService.findOne(itemRequestId);
+    }
 }
