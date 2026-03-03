@@ -1,14 +1,9 @@
 package ru.practicum.shareit.user;
 
-public interface UserRepository {
-    UserDto create(UserDto userDto);
+import org.springframework.data.jpa.repository.JpaRepository;
 
-    UserDto findOne(Long userId);
+import java.util.Optional;
 
-    UserDto delete(Long userId);
-
-    UserDto update(Long userId, UserDto userDto);
-
-    User findUserById(Long userId);
-
+public interface UserRepository extends JpaRepository<User, Long> {
+    Optional<User> findByEmailIgnoreCase(String userEmail);
 }

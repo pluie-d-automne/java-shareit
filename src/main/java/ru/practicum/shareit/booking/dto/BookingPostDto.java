@@ -1,12 +1,9 @@
 package ru.practicum.shareit.booking.dto;
-
+import jakarta.validation.constraints.Future;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import ru.practicum.shareit.booking.BookingStatus;
-import ru.practicum.shareit.item.dto.ItemDto;
-import ru.practicum.shareit.user.User;
 
 import java.time.LocalDateTime;
 
@@ -14,16 +11,13 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class BookingDto {
-    private Long id;
 
-    private ItemDto item;
+public class BookingPostDto {
+    private Long itemId;
 
-    private User booker;
-
-    private BookingStatus status;
-
+    @Future(message = "Booking should start in the future.")
     private LocalDateTime start;
 
+    @Future(message = "Booking should start in the future.")
     private LocalDateTime end;
 }
