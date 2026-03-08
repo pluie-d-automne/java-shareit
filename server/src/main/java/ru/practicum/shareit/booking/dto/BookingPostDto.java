@@ -13,6 +13,8 @@ import java.time.LocalDateTime;
 
 public class BookingPostDto {
     private Long itemId;
+
     private LocalDateTime start;
+
     private LocalDateTime end;
 }

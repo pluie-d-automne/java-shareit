@@ -33,7 +33,7 @@ public class ItemRequestServiceImpl implements ItemRequestService {
                 itemRequestDto.getDescription(),
                 user,
                 LocalDateTime.now());
-        itemRequestRepository.save(request);
+        request = itemRequestRepository.save(request);
         log.info("Saved new item request {}", request);
         return itemRequestMapper.itemRequestToItemRequestDto(request);
     }
