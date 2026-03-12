@@ -3,7 +3,7 @@
 
 Запуск postgres через docker-compose:
 ```(bash)
-docker compose --file compose.yaml up --build -d
+docker compose --file docker-compose.yml up --build --force-recreate -d
 ```
 ```(bash)
 docker-compose start
