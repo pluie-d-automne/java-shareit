@@ -98,7 +98,9 @@ public class BookingServiceImpl implements BookingService {
             case REJECTED -> bookingRepository.findByBookerIdAndStatus(bookerId, BookingStatus.REJECTED);
         };
 
-        return bookings.stream().map(bookingMapper::toBookingDto).toList();
+        return bookings.stream()
+                .map(bookingMapper::toBookingDto)
+                .toList();
     }
 
     @Override
@@ -118,7 +120,9 @@ public class BookingServiceImpl implements BookingService {
             throw new NotFoundException("Owner with id=" + ownerId + " does not have booked " + bookingState + " items.");
         }
 
-        return bookings.stream().map(bookingMapper::toBookingDto).toList();
+        return bookings.stream()
+                .map(bookingMapper::toBookingDto)
+                .toList();
     }
 
     @Override

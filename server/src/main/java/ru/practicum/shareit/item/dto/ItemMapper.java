@@ -24,7 +24,9 @@ public class ItemMapper {
     }
 
     public ItemOwnerDto toItemOwnerDto(Item item, BookingDates lastBooking, BookingDates nextBooking, List<Comment> comments) {
-        List<CommentDto> commentsDto = comments.stream().map(this::toCommentDto).toList();
+        List<CommentDto> commentsDto = comments.stream()
+                .map(this::toCommentDto)
+                .toList();
         return new ItemOwnerDto(
                 item.getId(),
                 item.getName(),

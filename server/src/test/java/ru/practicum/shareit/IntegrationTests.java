@@ -42,9 +42,7 @@ import java.util.Optional;
 @Transactional
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
 @TestPropertySource(locations = "classpath:application-test.properties")
-@SpringBootTest(
-        //properties = "jdbc.url=jdbc:postgresql://localhost:5432/test",
-        webEnvironment = SpringBootTest.WebEnvironment.NONE)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
 public class IntegrationTests {
     private final UserService userService;
     private final ItemService itemService;

@@ -13,6 +13,7 @@ import ru.practicum.shareit.user.User;
 import ru.practicum.shareit.user.UserService;
 
 import java.time.LocalDateTime;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -42,14 +43,20 @@ public class ItemRequestServiceImpl implements ItemRequestService {
     public List<ItemRequestDto> findRequestsByUser(Long userId) {
         log.info("Look for item requests by user_id={}",userId);
         List<ItemRequest> requests = itemRequestRepository.findByRequestorId(userId);
-        return requests.stream().map(itemRequestMapper::itemRequestToItemRequestDto).toList();
+        return requests.stream()
+                .map(itemRequestMapper::itemRequestToItemRequestDto)
+                .sorted(Comparator.comparing(ItemRequestDto::getCreated).reversed())
+                .toList();
     }
 
     @Override
     public List<ItemRequestDto> findRequestsOtherUsers(Long userId) {
         log.info("Look for item requests by users other than user_id={}",userId);
         List<ItemRequest> requests = itemRequestRepository.findByRequestorIdNot(userId);
-        return requests.stream().map(itemRequestMapper::itemRequestToItemRequestDto).toList();
+        return requests.stream()
+                .map(itemRequestMapper::itemRequestToItemRequestDto)
+                .sorted(Comparator.comparing(ItemRequestDto::getCreated).reversed())
+                .toList();
 
     }
 
@@ -59,7 +66,9 @@ public class ItemRequestServiceImpl implements ItemRequestService {
         ItemRequest request = findItemRequestById(itemRequestId);
         ItemRequestWithItemsDto requestDto = itemRequestMapper.itemRequestToItemRequestWithItemsDto(request);
         List<Item> items = itemRepository.findByRequestId(itemRequestId);
-        requestDto.setItems(items.stream().map(itemRequestMapper::itemToItemForRequestDto).toList());
+        requestDto.setItems(items.stream()
+                .map(itemRequestMapper::itemToItemForRequestDto)
+                .toList());
         return requestDto;
     }
 

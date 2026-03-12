@@ -102,7 +102,10 @@ public class ItemServiceImpl implements ItemService {
     public List<ItemDto> searchItemsByText(String text) {
         log.info("Look for items by text={}",text);
         List<Item> items = itemRepository.findByNameLikeIgnoreCaseOrDescriptionLikeIgnoreCase(text, text);
-        return items.stream().filter(Item::getAvailable).map(itemMapper::toItemDto).toList();
+        return items.stream()
+                .filter(Item::getAvailable)
+                .map(itemMapper::toItemDto)
+                .toList();
     }
 
     @Override
@@ -130,7 +133,10 @@ public class ItemServiceImpl implements ItemService {
             throw new BadRequest("User " + authorId + " has never booked item " + itemId);
         }
 
-        LocalDateTime start = bookings.stream().map(Booking::getStart).min(LocalDateTime::compareTo).get();
+        LocalDateTime start = bookings.stream()
+                .map(Booking::getStart)
+                .min(LocalDateTime::compareTo)
+                .get();
 
         if (start.isAfter(now)) {
             throw new BadRequest("User " + authorId + " booking of item " + itemId + "has not started. Start: "
